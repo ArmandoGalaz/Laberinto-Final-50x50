@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string> 
+#include <string>
+#include <chrono>
 using namespace std;
 
 const int Filas = 50;
@@ -86,9 +87,16 @@ void Leer_Laberinto() {
     archivo.close(); // cerramos la lectura del txt
 
     int entrada_x, entrada_y, salida_x, salida_y;
+
+    auto principio = std::chrono::high_resolution_clock::now();
+
     DetectarEntradaSalida(entrada_x, entrada_y, salida_x, salida_y); // llamamos a la funcion DetectarEntradaSalida para saber donde se ubica la entrada y salida del laberinto y poder comenzar el camino
 
     Camino(entrada_x, entrada_y, salida_x, salida_y);  // buscamos el camino
+
+    auto final = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = final - principio;
+    cout << "El tiempo en el que se encontro la solucion fue" << duration.count() << "segundos" << endl;
 
     ofstream archivo_solucion("Laberinto_solucion.txt"); // Nuevo archivo para escribir la solución
 
